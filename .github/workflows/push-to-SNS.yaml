@@ -1,0 +1,23 @@
+name: New Issue
+
+on:
+  issues:
+    types: [opened, edited]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  pushToSNS:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - uses: isbang/sqs-action@v0.1.1
+        with:
+          sqs-url: https://sqs.us-west-2.amazonaws.com/<your_account_id>/blog-issue-updates
+          message: '{ "issueId": ${{ github.event.issue.number }} }'          
