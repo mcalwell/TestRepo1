@@ -19,5 +19,5 @@ jobs:
 
       - uses: isbang/sqs-action@v0.1.1
         with:
-          sqs-url: https://sqs.us-west-2.amazonaws.com/<your_account_id>/blog-issue-updates
+          sqs-url: https://sqs.us-east-1.amazonaws.com/222874262502/github-new-issue-queue
           message: '{ "issueId": ${{ github.event.issue.number }} }'          
